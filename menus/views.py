@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, filters
+from rest_framework import viewsets
 
 from menus.filters import RestaurantFilter
 from menus.models import (
@@ -7,10 +7,14 @@ from menus.models import (
     Menu,
     Vote
 )
+from menus.permisions import IsAdminAllORIsAuthenticatedReadOnly
 from menus.serializers import (
     RestaurantSerializer,
     MenuSerializer,
-    VoteSerializer, MenuListSerializer, MenuRetrieveSerializer, VoteListRetrieveSerializer
+    MenuListSerializer,
+    MenuRetrieveSerializer,
+    VoteSerializer,
+    VoteListRetrieveSerializer
 )
 
 
@@ -19,10 +23,12 @@ class RestaurantViewSet(viewsets.ModelViewSet):
     serializer_class = RestaurantSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = RestaurantFilter
+    permission_classes = [IsAdminAllORIsAuthenticatedReadOnly]
 
 
 class MenuViewSet(viewsets.ModelViewSet):
     queryset = Menu.objects.all()
+    permission_classes = [IsAdminAllORIsAuthenticatedReadOnly]
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -40,6 +46,7 @@ class MenuViewSet(viewsets.ModelViewSet):
 
 class VoteViewSet(viewsets.ModelViewSet):
     queryset = Vote.objects.all()
+    permission_classes = [IsAdminAllORIsAuthenticatedReadOnly]
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
