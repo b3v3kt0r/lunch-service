@@ -29,4 +29,17 @@ class MenuListSerializer(MenuSerializer):
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
-        fields = ["id", "user", "menu", "date"]
+        fields = ["id", "menu", "date", "user"]
+        read_only_fields = ["id", "user"]
+
+
+class VoteListRetrieveSerializer(serializers.ModelSerializer):
+    menu = serializers.SlugRelatedField(
+        slug_field="items",
+        read_only=True
+    )
+    restaurant = serializers.CharField(source="menu.restaurant.name")
+
+    class Meta:
+        model = Vote
+        fields = ["id", "menu", "restaurant", "date"]

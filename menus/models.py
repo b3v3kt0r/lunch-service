@@ -16,7 +16,7 @@ class Menu(models.Model):
     items = models.TextField()
 
     def __str__(self):
-        return f"Restaurant: {self.restaurant.name}. Menu: {self.items}"
+        return f"Menu: {self.items} for '{self.restaurant}'"
 
 
 class Vote(models.Model):

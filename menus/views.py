@@ -8,7 +8,7 @@ from menus.models import (
 from menus.serializers import (
     RestaurantSerializer,
     MenuSerializer,
-    VoteSerializer, MenuListSerializer, MenuRetrieveSerializer
+    VoteSerializer, MenuListSerializer, MenuRetrieveSerializer, VoteListRetrieveSerializer
 )
 
 
@@ -36,4 +36,17 @@ class MenuViewSet(viewsets.ModelViewSet):
 
 class VoteViewSet(viewsets.ModelViewSet):
     queryset = Vote.objects.all()
-    serializer_class = VoteSerializer
+
+    def get_serializer_class(self):
+        if self.action in ["list", "retrieve"]:
+            return VoteListRetrieveSerializer
+        return VoteSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        if self.action in ["list", "retrieve"]:
+            return self.queryset.select_related()
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
