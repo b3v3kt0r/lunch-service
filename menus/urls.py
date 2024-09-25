@@ -12,7 +12,7 @@ app_name = "menus"
 
 router = routers.DefaultRouter()
 router.register("restaurants", RestaurantViewSet)
-router.register("menus", MenuViewSet)
+router.register("menu", MenuViewSet)
 router.register("votes", VoteViewSet)
 
 urlpatterns = [path("", include(router.urls))]
