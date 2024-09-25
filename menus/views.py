@@ -7,7 +7,6 @@ from menus.models import (
     Menu,
     Vote
 )
-from menus.permissions import IsAdminAllORIsAuthenticatedReadOnly
 from menus.serializers import (
     RestaurantSerializer,
     MenuSerializer,
@@ -23,12 +22,10 @@ class RestaurantViewSet(viewsets.ModelViewSet):
     serializer_class = RestaurantSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = RestaurantFilter
-    permission_classes = [IsAdminAllORIsAuthenticatedReadOnly]
 
 
 class MenuViewSet(viewsets.ModelViewSet):
     queryset = Menu.objects.all()
-    permission_classes = [IsAdminAllORIsAuthenticatedReadOnly]
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -46,7 +43,6 @@ class MenuViewSet(viewsets.ModelViewSet):
 
 class VoteViewSet(viewsets.ModelViewSet):
     queryset = Vote.objects.all()
-    permission_classes = [IsAdminAllORIsAuthenticatedReadOnly]
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
