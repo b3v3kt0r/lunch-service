@@ -10,7 +10,7 @@ class Restaurant(models.Model):
 class Menu(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     date = models.DateField()
-    items = models.CharField()
+    items = models.TextField()
 
 
 class Vote(models.Model):
