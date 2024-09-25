@@ -1,5 +1,10 @@
+from datetime import date
+
+from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from menus.filters import RestaurantFilter
 from menus.models import (
@@ -27,6 +32,15 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 class MenuViewSet(viewsets.ModelViewSet):
     queryset = Menu.objects.all()
 
+    @action(detail=False, methods=["get"])
+    def current_day(self, request):
+        today = date.today()
+        menu = Menu.objects.filter(date=today).first()
+        if menu:
+            serializer = self.get_serializer(menu)
+            return Response(serializer.data)
+        return Response({"detail": "No menu for today."}, status=404)
+
     def get_serializer_class(self):
         if self.action == "list":
             return MenuListSerializer
@@ -43,6 +57,21 @@ class MenuViewSet(viewsets.ModelViewSet):
 
 class VoteViewSet(viewsets.ModelViewSet):
     queryset = Vote.objects.all()
+
+    @action(detail=False, methods=["get"])
+    def results(self, request):
+        today = date.today()
+        favorite_menu = (
+            Vote.objects.filter(date=today)
+            .values("menu")
+            .annotate(count=Count("id"))
+            .order_by("-count")
+            .first()
+        )
+
+        if favorite_menu:
+            return Response(favorite_menu)
+        return Response({"detail": "No votes found for today."}, status=404)
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
