@@ -1,5 +1,7 @@
-from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, filters
 
+from menus.filters import RestaurantFilter
 from menus.models import (
     Restaurant,
     Menu,
@@ -15,6 +17,8 @@ from menus.serializers import (
 class RestaurantViewSet(viewsets.ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = RestaurantFilter
 
 
 class MenuViewSet(viewsets.ModelViewSet):
