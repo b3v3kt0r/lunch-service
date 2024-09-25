@@ -22,5 +22,5 @@ from django.urls.conf import include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("menus/", include("menus.urls", namespace="menus")),
-    # path("user/", include("user.urls", namespace="user")),
+    path("user/", include("user.urls", namespace="user")),
 ] + debug_toolbar_urls()
