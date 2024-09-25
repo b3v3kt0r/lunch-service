@@ -136,7 +136,10 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": ["menus.permissions.IsAdminAllORIsAuthenticatedReadOnly"],
     'DEFAULT_PAGINATION_CLASS': "rest_framework.pagination.LimitOffsetPagination",
-    'PAGE_SIZE': 5
+    'PAGE_SIZE': 5,
+    'DEFAULT_VERSIONING_CLASS': 'menus.versioning.HeaderVersioning',
+    'ALLOWED_VERSIONS': ['1.0', '2.0'],
+    'VERSION_PARAM': 'version',
 }
 
 SIMPLE_JWT = {
