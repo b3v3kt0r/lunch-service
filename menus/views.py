@@ -8,7 +8,7 @@ from menus.models import (
 from menus.serializers import (
     RestaurantSerializer,
     MenuSerializer,
-    VoteSerializer
+    VoteSerializer, MenuListSerializer
 )
 
 
@@ -19,7 +19,17 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 
 class MenuViewSet(viewsets.ModelViewSet):
     queryset = Menu.objects.all()
-    serializer_class = MenuSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return MenuListSerializer
+        return MenuSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        if self.action == "list":
+            return self.queryset.select_related()
+        return queryset
 
 
 class VoteViewSet(viewsets.ModelViewSet):
