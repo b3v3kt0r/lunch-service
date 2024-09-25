@@ -15,6 +15,10 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = ["id", "restaurant", "date", "items"]
 
 
+class MenuListSerializer(MenuSerializer):
+    restaurant = RestaurantSerializer()
+
+
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
