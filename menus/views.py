@@ -7,7 +7,7 @@ from menus.models import (
     Menu,
     Vote
 )
-from menus.permisions import IsAdminAllORIsAuthenticatedReadOnly
+from menus.permissions import IsAdminAllORIsAuthenticatedReadOnly
 from menus.serializers import (
     RestaurantSerializer,
     MenuSerializer,
