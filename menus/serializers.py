@@ -15,8 +15,15 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = ["id", "restaurant", "date", "items"]
 
 
-class MenuListSerializer(MenuSerializer):
+class MenuRetrieveSerializer(MenuSerializer):
     restaurant = RestaurantSerializer()
+
+
+class MenuListSerializer(MenuSerializer):
+    restaurant = serializers.SlugRelatedField(
+        slug_field="name",
+        read_only=True
+    )
 
 
 class VoteSerializer(serializers.ModelSerializer):
