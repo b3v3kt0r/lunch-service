@@ -32,13 +32,18 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 class MenuViewSet(viewsets.ModelViewSet):
     queryset = Menu.objects.all()
 
-    @action(detail=False, methods=["get"])
+    @action(detail=False, methods=['get'])
     def current_day(self, request):
         today = date.today()
         menu = Menu.objects.filter(date=today).first()
         if menu:
             serializer = self.get_serializer(menu)
-            return Response(serializer.data)
+            if request.version == '1.0':
+                return Response(serializer.data)
+            elif request.version == '2.0':
+                data = serializer.data
+                data["additional_info"] = "You're the best!"
+                return Response(data)
         return Response({"detail": "No menu for today."}, status=404)
 
     def get_serializer_class(self):
