@@ -1,8 +1,15 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 
-from menus.models import Restaurant, Menu, Vote
-from menus.serializers import RestaurantSerializer, MenuSerializer, VoteSerializer
+from menus.models import (
+    Restaurant,
+    Menu,
+    Vote
+)
+from menus.serializers import (
+    RestaurantSerializer,
+    MenuSerializer,
+    VoteSerializer
+)
 
 
 class RestaurantViewSet(viewsets.ModelViewSet):
