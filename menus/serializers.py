@@ -1,6 +1,10 @@
 from rest_framework import serializers
 
-from menus.models import Restaurant, Menu, Vote
+from menus.models import (
+    Restaurant,
+    Menu,
+    Vote
+)
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
